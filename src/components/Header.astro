@@ -1,85 +1,102 @@
----
-import { SITE_TITLE } from '../consts';
+﻿---
+import { BILIBILI_URL, CREATINF_URL, GITHUB_URL, SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
+<header class="sticky top-0 z-50 border-b border-zinc-200/90 bg-zinc-50/95 backdrop-blur transition-colors duration-200 dark:border-zinc-800 dark:bg-zinc-950/90">
+	<nav class="page-shell flex h-16 items-center justify-between gap-4">
+		<div class="flex items-center gap-6">
+			<a href="/" class="text-base font-semibold tracking-tight text-zinc-900 no-underline dark:text-zinc-100">
+				{SITE_TITLE}
+			</a>
+			<div class="hidden items-center gap-1 text-sm md:flex">
+				<HeaderLink href="/">Home</HeaderLink>
+				<HeaderLink href="/blog">Blog</HeaderLink>
+				<HeaderLink href="/about">About</HeaderLink>
+			</div>
 		</div>
-		<div class="social-links">
-			<a href="https://m.webtoo.ls/@astro" target="_blank">
-				<span class="sr-only">Follow Astro on Mastodon</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"
-					></path></svg
-				>
+		<div class="flex items-center gap-2">
+			<img
+				src="/image/DanArnoux.jpg"
+				alt="Dan Arnoux avatar"
+				class="h-9 w-9 rounded-full border border-zinc-200 object-cover dark:border-zinc-700"
+			/>
+			<a
+				href={GITHUB_URL}
+				target="_blank"
+				rel="noreferrer"
+				class="icon-button inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+				aria-label="GitHub"
+			>
+				<svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true">
+					<path d="M12 .3A12 12 0 0 0 8.2 23.7c.6.1.8-.2.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.8 1.1 1.8 1.1 1 .1 1.6.7 2 1.3.9.2 1.8.4 2.7.1.1-.7.4-1.3.7-1.7-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.1-3.2-.1-.3-.5-1.5.1-3.2 0 0 .9-.3 3.2 1.1a10.9 10.9 0 0 1 5.9 0c2.2-1.4 3.2-1.1 3.2-1.1.6 1.7.2 2.9.1 3.2.7.8 1.1 1.9 1.1 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .3" />
+				</svg>
+				<span class="sr-only">GitHub</span>
 			</a>
-			<a href="https://twitter.com/astrodotbuild" target="_blank">
-				<span class="sr-only">Follow Astro on Twitter</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-					></path></svg
-				>
+			<a
+				href={BILIBILI_URL}
+				target="_blank"
+				rel="noreferrer"
+				class="icon-button inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+				aria-label="Bilibili"
+			>
+				<svg viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true">
+					<path d="M7.4 2.8a1 1 0 0 1 1.4 0L12 6l3.2-3.2a1 1 0 1 1 1.4 1.4L14.5 6.3h3.8A3.7 3.7 0 0 1 22 10v8.3A3.7 3.7 0 0 1 18.3 22H5.7A3.7 3.7 0 0 1 2 18.3V10a3.7 3.7 0 0 1 3.7-3.7h3.8L7.4 4.2a1 1 0 0 1 0-1.4ZM5.7 8.3A1.7 1.7 0 0 0 4 10v8.3c0 .9.8 1.7 1.7 1.7h12.6c.9 0 1.7-.8 1.7-1.7V10c0-.9-.8-1.7-1.7-1.7H5.7Zm1.8 3a1 1 0 0 1 1 1v3.4a1 1 0 1 1-2 0v-3.4a1 1 0 0 1 1-1Zm9 0a1 1 0 0 1 1 1v3.4a1 1 0 1 1-2 0v-3.4a1 1 0 0 1 1-1Z" />
+				</svg>
+				<span class="sr-only">Bilibili</span>
 			</a>
-			<a href="https://github.com/withastro/astro" target="_blank">
-				<span class="sr-only">Go to Astro's GitHub repo</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
+			<a
+				href={CREATINF_URL}
+				target="_blank"
+				rel="noreferrer"
+				class="icon-button inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+				aria-label="CreatInf"
+			>
+				<span class="text-base font-semibold leading-none">∞</span>
+				<span class="sr-only">CreatInf</span>
 			</a>
+			<button
+				type="button"
+				id="theme-toggle"
+				class="icon-button inline-flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+				aria-label="Toggle theme"
+			>
+				<svg data-theme-icon="sun" viewBox="0 0 24 24" class="h-5 w-5 fill-current" aria-hidden="true">
+					<path d="M12 4a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Zm0 13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Zm8-5a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1ZM7 12a1 1 0 0 1-1 1H5a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1Zm9.7-5.3a1 1 0 0 1 0 1.4L16 8.8a1 1 0 1 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0Zm-7.3 7.3a1 1 0 0 1 0 1.4l-.7.7a1 1 0 0 1-1.4-1.4l.7-.7a1 1 0 0 1 1.4 0Zm7.3 2.1a1 1 0 0 1-1.4 1.4l-.7-.7a1 1 0 0 1 1.4-1.4l.7.7ZM9.4 8.8A1 1 0 0 1 8 8.8l-.7-.7a1 1 0 1 1 1.4-1.4l.7.7a1 1 0 0 1 0 1.4ZM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z" />
+				</svg>
+				<span class="sr-only">Toggle theme</span>
+			</button>
 		</div>
 	</nav>
 </header>
-<style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
-</style>
+<script is:inline>
+	const initThemeToggle = () => {
+		const button = document.getElementById('theme-toggle');
+		if (!button || button.dataset.bound === 'true') return;
+		button.dataset.bound = 'true';
+
+		const root = document.documentElement;
+		const storageKey = 'theme';
+		const updateAria = () => {
+			const isDark = root.classList.contains('dark');
+			button.setAttribute('aria-pressed', String(isDark));
+		};
+
+		button.addEventListener('click', () => {
+			root.classList.add('theme-switching');
+			const isDark = root.classList.toggle('dark');
+			root.dataset.theme = isDark ? 'dark' : 'light';
+			localStorage.setItem(storageKey, isDark ? 'dark' : 'light');
+			updateAria();
+			window.setTimeout(() => {
+				root.classList.remove('theme-switching');
+			}, 240);
+		});
+
+		updateAria();
+	};
+
+	initThemeToggle();
+	document.addEventListener('astro:after-swap', initThemeToggle);
+</script>
