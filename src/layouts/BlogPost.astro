@@ -11,6 +11,10 @@ type Props = CollectionEntry<'blog'>['data'] & {
 };
 
 const { title, description, pubDate, updatedDate, heroImage, profileImage } = Astro.props;
+const withBase = (path: string) =>
+	path.startsWith('http://') || path.startsWith('https://')
+		? path
+		: `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 ---
 
 <html lang="en">
@@ -25,7 +29,7 @@ const { title, description, pubDate, updatedDate, heroImage, profileImage } = As
 					<div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
 						{
 							typeof heroImage === 'string' ? (
-								<img src={heroImage} alt={title} class="h-auto w-full" loading="lazy" />
+								<img src={withBase(heroImage)} alt={title} class="h-auto w-full" loading="lazy" />
 							) : (
 								<Image width={1200} height={620} src={heroImage} alt="" class="h-auto w-full" />
 							)
@@ -50,7 +54,7 @@ const { title, description, pubDate, updatedDate, heroImage, profileImage } = As
 						{
 							profileImage && (
 								<img
-									src={profileImage}
+									src={withBase(profileImage)}
 									alt={`${title} profile`}
 									class="h-14 w-14 shrink-0 rounded-full border border-zinc-200 object-cover dark:border-zinc-700 md:h-16 md:w-16"
 									loading="lazy"
