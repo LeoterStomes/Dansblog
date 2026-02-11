@@ -22,7 +22,7 @@ You have two ways to obtain it.
 3.  Select **Download ZIP**
 4.  Extract it to any folder
 
-<img src="../../image/goflieuse/step1.png" alt="step1" />
+![step1](/image/goflieuse/step1.png)
 
 ------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ Downloaded files will appear in:
 
     outputs/
 
-<img src="../../image/goflieuse/step3.png" alt="step3" />
+![step3](/image/goflieuse/step3.png)
 
 ------------------------------------------------------------------------
 
