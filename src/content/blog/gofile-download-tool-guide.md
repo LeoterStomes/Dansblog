@@ -1,23 +1,9 @@
 ---
-author: Dan
-categories:
-- Tutorials
-date: 2026-02-11
-description: A step-by-step guide to downloading files from GoFile using
-  a Python script.
-tags:
-- tools
-- python
-- gofile
-- download
 title: GoFile Download Tool -- Complete Usage Guide
+description: A step-by-step guide to downloading files from GoFile using a Python script.
+pubDate: 2026-02-11
 typora-root-url: ./..\..\..\public\image
 ---
-
-# GoFile Download Tool -- Complete Usage Guide
-
-A practical and clean guide to downloading files from GoFile using a
-Python-based script.
 
 ------------------------------------------------------------------------
 
@@ -31,12 +17,12 @@ You have two ways to obtain it.
 
 ### Method 1 -- Download ZIP (Recommended)
 
-1.  Open the repository page\
-2.  Click **Code**\
-3.  Select **Download ZIP**\
+1.  Open the repository page
+2.  Click **Code**
+3.  Select **Download ZIP**
 4.  Extract it to any folder
 
-![](/goflieuse/step1.png)
+<img src="../../image/goflieuse/step1.png" alt="step1" />
 
 ------------------------------------------------------------------------
 
@@ -100,7 +86,7 @@ Downloaded files will appear in:
 
     outputs/
 
-![](/goflieuse/step3.png)
+<img src="../../image/goflieuse/step3.png" alt="step3" />
 
 ------------------------------------------------------------------------
 
@@ -122,8 +108,8 @@ python -m pip install --upgrade pip
 
 ## Workflow Summary
 
-1.  Get repository\
-2.  Install dependencies\
+1.  Get repository
+2.  Install dependencies
 3.  Run download command
 
 That's all.
