@@ -7,6 +7,10 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 const REPO_BASE = '/DansBlog/';
+const isCloudflarePages = Boolean(process.env.CF_PAGES);
+const isProduction = process.env.NODE_ENV === 'production';
+const runtimeBase = isCloudflarePages ? '/' : isProduction ? REPO_BASE : '/';
+const runtimeSite = isCloudflarePages ? 'https://dansblog.pages.dev' : 'https://dancncn.github.io';
 
 function rehypePrefixPublicImageBase(basePath) {
 	return () => {
@@ -38,13 +42,13 @@ function rehypePrefixPublicImageBase(basePath) {
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://dancncn.github.io',
-	base: REPO_BASE,
+	site: runtimeSite,
+	base: runtimeBase,
 	trailingSlash: 'always',
 	output: 'static',
 	integrations: [mdx(), sitemap()],
 	markdown: {
-		rehypePlugins: [rehypePrefixPublicImageBase(REPO_BASE)],
+		rehypePlugins: [rehypePrefixPublicImageBase(runtimeBase)],
 	},
 	vite: {
 		plugins: [tailwindcss()],
