@@ -4,6 +4,8 @@ title: "How to Build a Personal Blog Website"
 description: "Build a personal blog with Astro and Tailwind CSS, without dealing with your own server and domain setup from day one."
 pubDate: 2026-02-12
 tags: ["Astro", "blog", "github-pages", "guide", "EN"]
+important: true
+importantOrder: 90
 ---
 
 ## Preface
@@ -503,6 +505,116 @@ After that, your site is usually available at:
 11. Editing config directly on GitHub web too often: easy to conflict with local changes.
 
 ------
+
+## Deploying to Cloudflare Pages (Recommended: Stronger CDN & Less Maintenance)
+
+If GitHub Pages is already working for you, this is a practical upgrade path worth trying. In real-world use, Cloudflare Pages usually gives you a smoother deployment loop and stronger global delivery out of the box.
+
+### Why Consider Cloudflare Pages?
+
+- Global CDN: static assets are distributed closer to visitors worldwide.
+- Automatic HTTPS: certificate and TLS are managed for you.
+- Automatic deployment from Git: push to branch, trigger build, ship.
+- Performance and basic security benefits: caching, compression, and edge protection are easier to get right.
+- Future scalability: you can extend with Pages Functions / Workers and pair with D1 / KV / R2 when needed.
+
+For access quality, keep expectations realistic: international performance is usually excellent; mainland China is often more usable than GitHub Pages, but this is still not the same as a mainland CDN setup with ICP filing.
+
+### Step-by-Step Deployment Guide
+
+1. Create a Cloudflare account and enter the dashboard.
+2. In the left menu, open `Workers & Pages`.
+3. Choose `Pages`. In the newer UI, this entry may appear under `Looking to deploy Pages? Get started`.
+4. Click `Import an existing Git repository`.
+5. Connect your GitHub account and select your blog repository.
+6. Configure build settings:
+   - `Framework preset`: `Astro`
+   - `Build command`: `npm run build`
+   - `Build output directory`: `dist`
+   - `Production branch`: `main`
+7. Start deployment. After success, open the generated `*.pages.dev` URL.
+
+My recommendation: validate everything on the default `pages.dev` domain first, then bind custom domain later.
+
+### The Most Common Pitfall: Base Path Issues
+
+This is the one that gets almost everyone once.
+
+- GitHub Pages project sites usually live under a subpath like `/DansBlog/`.
+- Cloudflare Pages usually serves your site from root path `/`.
+- If `base` still points to `/DansBlog/`, your page loads as blue links / raw HTML with missing CSS/JS.
+
+Use an environment-based `base` switch in `astro.config.mjs`:
+
+```js
+import { defineConfig } from 'astro/config';
+
+const isCfPages = process.env.CF_PAGES === '1';
+const isGithubProd = !isCfPages && process.env.NODE_ENV === 'production';
+
+const base = isCfPages ? '/' : isGithubProd ? '/DansBlog/' : '/';
+
+export default defineConfig({
+  site: 'https://your-domain-or-pages-domain',
+  base,
+  trailingSlash: 'always',
+  output: 'static',
+});
+```
+
+Behavior of this setup:
+
+- Cloudflare build: `base = "/"`
+- GitHub Pages production build: `base = "/DansBlog/"`
+- Local dev: `base = "/"`
+
+Also avoid hardcoded `"/DansBlog"` in links/components. Prefer `import.meta.env.BASE_URL` or relative paths.
+
+### How to Validate the Deployment
+
+Local simulation first (Windows CMD):
+
+```cmd
+set CF_PAGES=1
+npm run build
+npx astro preview
+```
+
+Optional PowerShell equivalent:
+
+```powershell
+$env:CF_PAGES='1'
+npm run build
+npx astro preview
+```
+
+Online validation checklist:
+
+1. Open your `pages.dev` URL.
+2. Open DevTools -> `Network`, confirm 404 count is `0`.
+3. View page source and search for `"/DansBlog"`; it should not appear in Cloudflare deployment output.
+4. Test key routes: home page, article page, tag page, pagination.
+
+### pages.dev Domain & Custom Domain
+
+- `pages.dev` is the default free subdomain.
+- Renaming the project usually changes the subdomain prefix.
+- If you want your own domain, you usually need to purchase one first.
+- Cloudflare Pages supports custom domain binding directly in project settings.
+
+### Accessibility for International & Mainland China Users
+
+Practical expectations:
+
+- International visitors: usually very strong performance.
+- Mainland China users: often more usable than GitHub Pages.
+- Without ICP备案 and mainland CDN architecture, do not expect domestic-CDN-level stability everywhere.
+
+Low-cost improvements that help a lot:
+
+- Self-host fonts instead of relying on Google Fonts.
+- Minimize third-party external scripts.
+- Leverage static asset caching (hashed file names + long cache headers).
 
 ## Wrap-up
 

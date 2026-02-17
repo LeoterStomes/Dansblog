@@ -5,6 +5,8 @@ title: "如何搭建一个个人博客网站"
 description: "基于Astro和Tailwind css搭建一个不需要自己解决域名和服务器问题的个人博客网站。"
 pubDate: 2026-02-12
 tags: ["Astro", "blog", "github-pages", "guide", "CN"]
+important: true
+importantOrder: 100
 ---
 
 ## 前言
@@ -492,6 +494,110 @@ jobs:
 9. 改完配置忘记重启 dev server：有些配置（比如 `astro.config.mjs`）必须重启才生效。  
 10. 图片文件名随手改大小写：Windows 不敏感、GitHub Pages（Linux）敏感，最后线上 404。  
 11. 直接在 GitHub 网页端乱改配置文件：很容易和本地冲突，最好本地改完再统一 push。
+
+## 部署到 Cloudflare Pages（推荐：更强 CDN + 更少运维）
+
+如果你已经把 GitHub Pages 跑通了，这一节可以看成“同一个 Astro 项目，换一条更省心的发布链路”。我自己后来长期用下来，Cloudflare Pages 在部署体验和可维护性上都更顺手。
+
+### 为什么考虑 Cloudflare Pages（对比 GitHub Pages）
+
+- 全球 CDN：静态资源分发节点更多，国际访问通常更稳。
+- 自动 HTTPS：默认证书和 TLS 配置都省掉了。
+- 自动构建部署：连好仓库后，每次 push 自动构建上线。
+- 性能与安全：缓存、压缩、基础安全策略都比较完善。
+- 未来可扩展：后面要接 Functions/Workers，或者用 D1/KV/R2，也能在同一生态里继续长。
+
+对可访问性这件事我说结论：国际访问通常会显著更好；中国大陆地区通常也比 GitHub Pages 更“可用”，但它不是“国内 CDN 同等级稳定性”的承诺，这两件事要分开看。
+
+### 从 0 开始部署步骤（注册到上线）
+
+1. 注册并登录 Cloudflare，进入 Dashboard。
+2. 在左侧菜单进入 `Workers & Pages`。
+3. 选择 `Pages`。如果你看到新版界面，入口可能在 `Looking to deploy Pages? Get started` 这类提示里。
+4. 点击 `Import an existing Git repository`，按提示连接 GitHub，授权后选择你的博客仓库。
+5. 在 Build settings 里填这四个关键项：
+   - `Framework preset`: `Astro`
+   - `Build command`: `npm run build`
+   - `Build output directory`: `dist`
+   - `Production branch`: `main`
+6. 点击部署，等构建完成后先用 `xxx.pages.dev` 域名访问。
+
+第一次部署建议先别急着绑定自定义域名，先把默认域名验收跑通，排错成本最低。
+
+### 必踩坑：base 路径导致样式丢失（以及如何修）
+
+最常见现象是：页面能打开，但样式全没了，像一页蓝色链接的纯 HTML。根因通常是你之前给 GitHub Pages 写死了 `base: '/DansBlog/'`，Cloudflare 继续用这套路径后，资源地址就错了。
+
+`astro.config.mjs` 推荐改成按环境自动切换：
+
+```js
+import { defineConfig } from 'astro/config';
+
+const isCfPages = process.env.CF_PAGES === '1';
+const isGithubProd = !isCfPages && process.env.NODE_ENV === 'production';
+
+const base = isCfPages ? '/' : isGithubProd ? '/DansBlog/' : '/';
+
+export default defineConfig({
+  site: 'https://your-domain-or-pages-domain',
+  base,
+  trailingSlash: 'always',
+  output: 'static',
+});
+```
+
+这段配置对应的行为是：
+
+- Cloudflare 构建（`CF_PAGES=1`）：`base = '/'`
+- GitHub Pages 生产构建：`base = '/DansBlog/'`
+- 本地 `npm run dev`：`base = '/'`
+
+再补一个习惯：页面里尽量不要写死 `"/DansBlog"` 这类前缀，优先用 `import.meta.env.BASE_URL` 或相对路径，不然后面平台一换就炸。
+
+### 验收方法（本地模拟 + 线上检查）
+
+先在本地模拟 Cloudflare 构建（Windows CMD）：
+
+```cmd
+set CF_PAGES=1
+npm run build
+npx astro preview
+```
+
+然后访问本地预览地址，检查首页和文章页是否正常加载样式。
+
+可选：再模拟 GitHub Pages 生产构建（Windows CMD）：
+
+```cmd
+set CF_PAGES=
+set NODE_ENV=production
+npm run build
+npx astro preview
+```
+
+然后用 `http://localhost:4321/DansBlog/` 这类路径做一次回归检查，确认两边都兼容。（PowerShell 可用 `$env:CF_PAGES='1'` 这种写法，但这里默认按 CMD 流程走。）
+
+线上验收（`pages.dev`）我会做这几步：
+
+1. 打开首页、文章页、标签页、分页页。
+2. 按 `F12` 打开 DevTools，在 Network 里过滤 `404`，结果应为 `0`。
+3. `View page source` 搜索 `"/DansBlog"`，Cloudflare 版本里不应该出现。
+
+### pages.dev 默认域名与自定义域名
+
+Cloudflare Pages 会给你一个默认免费域名（`xxx.pages.dev`），这个可以直接用来上线和验收。项目名改变后，子域名前缀通常也会跟着变化。
+
+如果你想用自己的域名，结论也很直接：通常需要先有自己的域名，然后在 Pages 项目里绑定自定义域名。DNS 细节这里不展开，但流程上就是“先买域名，再在 Pages 里绑定”。
+
+### 面向大陆与国际用户的可达性建议（务实）
+
+这块我不说大话，直接给实操建议：
+
+1. 国际访问：Cloudflare Pages 通常明显优于 GitHub Pages。
+2. 大陆访问：通常会比 GitHub Pages 更可用，但它不等同于国内商业 CDN 的稳定性上限。
+3. 字体、图片、脚本尽量自托管，减少第三方外链（尤其 Google Fonts 这类跨境依赖）。
+4. 静态资源配合 hash 文件名做强缓存，让重复访问更快。
+5. 图片优先走你自己的站点资源；如果后面有对象存储需求，可以考虑接 R2。
 
 ------
 
