@@ -3,6 +3,8 @@ title: GoFile 下载工具 -- 完整使用指南
 description: 一份使用 Python 脚本从 GoFile 下载文件的分步指南。
 pubDate: 2026-02-11
 tags: ["tools", "download", "gofile", "guide", "CN"]
+lang: "cn"
+group: "gofile-download-tool-guide"
 typora-root-url: ./..\..\..\public\image
 ---
 
@@ -29,7 +31,7 @@ https://github.com/rkwyu/gofile-dl
 3.  选择 **Download ZIP**
 4.  解压到任意文件夹
 
-![step1](/image/goflieuse/step1.png)
+![step1](./gofile-download-tool-guide/images/step1.png)
 
 ------------------------------------------------------------------------
 
@@ -93,7 +95,7 @@ python run.py -i "example.zip" https://gofile.io/d/abcd1234
 
     outputs/
 
-![step3](/image/goflieuse/step3.png)
+![step3](./gofile-download-tool-guide/images/step3.png)
 
 ------------------------------------------------------------------------
 

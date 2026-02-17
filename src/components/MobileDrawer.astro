@@ -1,7 +1,11 @@
----
+﻿---
 import { SITE_TITLE } from '../consts';
 import { getNavLinks } from '../data/navLinks';
 
+/*
+ * Mobile navigation drawer.
+ * Works as a body-level overlay layer so it is not clipped by page containers.
+ */
 const BASE = import.meta.env.BASE_URL;
 const NAV_LINKS = getNavLinks(BASE);
 ---
@@ -51,6 +55,7 @@ const NAV_LINKS = getNavLinks(BASE);
 		const drawer = document.getElementById('mobile-drawer');
 		const overlay = document.getElementById('mobile-overlay');
 		const closeBtn = document.getElementById('mobile-menu-close');
+		// Avoid duplicate listeners after client-side route swaps.
 		if (!trigger || !drawer || !overlay || !closeBtn || trigger.dataset.drawerBound === 'true') return;
 		trigger.dataset.drawerBound = 'true';
 		const TRANSITION_MS = 220;
@@ -102,6 +107,7 @@ const NAV_LINKS = getNavLinks(BASE);
 			drawer.classList.remove('hidden');
 			overlay.classList.remove('hidden');
 			document.documentElement.classList.add('overflow-hidden');
+			// Defer transform class toggle to next frame so transition runs reliably.
 			window.requestAnimationFrame(setOpenVisualState);
 		};
 
@@ -137,6 +143,7 @@ const NAV_LINKS = getNavLinks(BASE);
 				overlay.classList.add('hidden');
 			}, 220);
 		});
+		// Bound once globally; avoids stacking ESC handlers across route transitions.
 		document.documentElement.dataset.drawerEscBound = 'true';
 	}
 

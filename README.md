@@ -1,188 +1,238 @@
 ﻿# Dan's Blog
 
-English is the default documentation language. Chinese version is provided below.
+A static Astro + Tailwind personal blog for research notes, engineering workflows, and reproducible long-form writing.
 
-A personal technical blog built with Astro, focused on research notes, engineering workflow, and reproducible project logs.
+English is the primary README language. A Simplified Chinese brand-style summary is included at the end.
 
-## Overview
+[![Visit Live Site](https://img.shields.io/badge/Visit-Live%20Site-0f766e?style=for-the-badge&logo=cloudflare&logoColor=white)](https://dansblog.pages.dev/)
+[![View GitHub Repository](https://img.shields.io/badge/GitHub-Repository-111827?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Dancncn/DansBlog)
+[![Blog](https://img.shields.io/badge/Open-Blog-1d4ed8?style=for-the-badge)](https://dansblog.pages.dev/blog/)
+[![Tags](https://img.shields.io/badge/Open-Tags-6d28d9?style=for-the-badge)](https://dansblog.pages.dev/tags/)
 
-This project is an Astro-based static blog with:
-- Content Collections for structured Markdown posts
-- Tailwind CSS for consistent design tokens and typography
-- Lightweight interactive components (theme toggle, terminal quote card)
-- GitHub Pages deployment under a repo base path (`/DansBlog/`)
+## Main Site
 
-## Technical Principles
+Primary access is **Cloudflare Pages**: `https://dansblog.pages.dev/`.
 
-### 1) Static-first architecture
-- The site is generated as static HTML (`output: "static"`) for speed and reliability.
-- Posts are authored in Markdown and compiled at build time.
-- Routes are file-based (`src/pages/*`).
+GitHub Pages (`https://dancncn.github.io/DansBlog/`) is kept as a mirror deployment for redundancy and compatibility testing.
 
-### 2) Content modeling with Astro Content Collections
-- Blog posts live in `src/content/blog/`.
-- Frontmatter is schema-validated in `src/content.config.ts`.
-- This keeps metadata consistent (`title`, `description`, `pubDate`, etc.) and type-safe.
+## Features 🚀
 
-### 3) Layout and rendering flow
-- Shared page structure is handled by reusable layout/components:
-  - `src/components/BaseHead.astro`
-  - `src/components/Header.astro`
-  - `src/components/Footer.astro`
-  - `src/layouts/BlogPost.astro`
-- Post pages use a dynamic route (`src/pages/blog/[...slug].astro`) and render content via `render(post)`.
+A practical stack for writing, documenting, and maintaining a technical blog over time: 📚 structured content, 🛠️ reusable UI primitives, and stable behavior under real navigation and rendering conditions.
 
-### 4) Styling system
-- Tailwind provides a restrained design system (neutral grayscale + one accent color).
-- Typography and spacing are unified for mixed Chinese/English technical writing.
-- Motion is intentionally subtle to preserve readability.
+- Static-first blog with Astro Content Collections (`.md` + `.mdx`)
+- Structured long-form pages: Home, Blog, Tags, Important, Links, About
+- Reusable list UI (`PostCard`, `TagBadges`, `Pagination`)
+- Article TOC system: desktop sticky sidebar + mobile drawer
+- Language switch support for paired CN/EN posts
+- Repo-page and root-path deployment support (GitHub Pages + Cloudflare Pages)
 
-### 5) GitHub Pages deployment strategy
-- This repo is deployed as **GitHub Pages repo site** (not user root site).
-- `astro.config.mjs` uses:
-  - `site: "https://dancncn.github.io"`
-  - `base: "/DansBlog/"`
-  - `trailingSlash: "always"`
-- Internal links and assets are generated with base-aware paths.
-- Markdown images under `/image/...` are normalized during rendering to support repo base prefix in production.
+## System Architecture 🧱
 
-## Project Structure
+### Content Pipeline
+
+- Source: `src/content/blog/`
+- Schema: `src/content.config.ts`
+- Post route: `src/pages/blog/[...slug].astro`
+- Rendering: `render(post)` returns both `Content` and `headings`
+- Layout composition: `src/layouts/BlogPost.astro`
+
+### UI Composition
+
+- Global shell: `BaseHead` + `Header` + `Footer`
+- Navigation and drawers: `Header`, `MobileDrawer`, `TocDrawer`
+- Post list primitives: `PostCard`, `TagBadges`, `Pagination`
+- TOC stack: `Toc`, `TocSidebar`, `TocDrawer`
+
+### Routing Map
+
+- `/`
+- `/blog/`
+- `/blog/page/n/`
+- `/blog/<slug>/`
+- `/tags/` and `/tags/<tag>/`
+- `/important/`
+- `/links/`
+- `/about/`
+
+## Project Structure 📁
 
 ```text
 .
 ├─ public/
-│  ├─ image/                 # Static images (hero, avatars, blog images, etc.)
-│  └─ pdfs/                  # PDF files for download/open in posts
+│  ├─ image/                    # Static images (hero, avatars, article images)
+│  └─ pdfs/                     # PDF files
 ├─ src/
-│  ├─ components/            # Reusable UI components (Header, Footer, TOC, cards...)
+│  ├─ components/
+│  │  ├─ BaseHead.astro         # Metadata, fonts, ViewTransitions entry
+│  │  ├─ Header.astro           # Global nav, social actions, theme toggle, TOC trigger
+│  │  ├─ MobileDrawer.astro     # Mobile navigation drawer
+│  │  ├─ PostCard.astro         # Reusable post list card
+│  │  ├─ TagBadges.astro        # Responsive tag rendering rules
+│  │  ├─ Pagination.astro       # Paged navigation with ellipsis logic
+│  │  ├─ Toc*.astro             # TOC list/sidebar/drawer
+│  │  └─ ...
 │  ├─ content/
-│  │  └─ blog/               # Markdown blog posts
-│  ├─ data/                  # Local data sources (quotes, links, nav config...)
-│  ├─ layouts/               # Page layouts (e.g. BlogPost layout)
-│  ├─ pages/                 # File-based routes
-│  ├─ styles/                # Global styles and Tailwind composition
-│  ├─ consts.ts              # Site-level constants
-│  └─ content.config.ts      # Content Collection schema
-├─ astro.config.mjs          # Astro config (site/base/output/trailingSlash)
-├─ tailwind.config.mjs       # Tailwind theme and plugin config
-└─ package.json
+│  │  └─ blog/                  # Markdown/MDX posts
+│  ├─ data/
+│  │  ├─ links.ts               # Links dataset
+│  │  ├─ navLinks.ts            # Navigation source
+│  │  └─ quotes.json            # Terminal quote data
+│  ├─ layouts/
+│  │  └─ BlogPost.astro         # Article layout + TOC + runtime behavior
+│  ├─ pages/
+│  │  ├─ index.astro
+│  │  ├─ blog/
+│  │  ├─ tags/
+│  │  ├─ important/
+│  │  ├─ links/
+│  │  └─ about.astro
+│  ├─ styles/
+│  │  └─ global.css             # Typography, motion, stability and prose rules
+│  ├─ consts.ts
+│  └─ content.config.ts
+├─ astro.config.mjs
+├─ tailwind.config.mjs
+└─ README.md
 ```
 
-## Key Files and Responsibilities
+## Engineering Decisions 🛠️
 
-| File | Responsibility |
-| :-- | :-- |
-| `src/layouts/BlogPost.astro` | Blog article page layout: metadata, title area, desktop TOC column, markdown content wrapper |
-| `src/pages/blog/[...slug].astro` | Dynamic post route, loads post entry and headings via `render(post)` |
-| `src/components/Header.astro` | Global navigation, social icons, theme toggle, mobile TOC button trigger |
-| `src/components/MobileDrawer.astro` | Mobile site navigation drawer (Menu) |
-| `src/components/TocDrawer.astro` | Mobile TOC drawer (md below) |
-| `src/components/TocSidebar.astro` | Desktop TOC card content (rendered inside left `aside`) |
-| `src/components/Toc.astro` | Pure TOC list rendering (`h2/h3`) and anchor links |
-| `src/pages/links/index.astro` | Friends/Links page rendering, avatar fallback strategy |
-| `src/data/links.ts` | Links source of truth (name/url/avatar/github/description/tags) |
-| `src/styles/global.css` | Global typography/motion rules, prose styles, heading scroll offset |
-| `astro.config.mjs` | Deployment-critical settings (`site`, `base`, `output`, `trailingSlash`) |
+### 1) Base-Path Safe Deployments
 
-## Development Notes
+The same codebase runs in two environments:
 
-- Base path first:
-  Use `import.meta.env.BASE_URL` for internal links/assets in `.astro` files; avoid hardcoded root paths when they bypass repo base.
-- Markdown image convention:
-  Keep post images under `public/image/...` and reference them with `/image/...` in Markdown.
-- Content schema discipline:
-  When adding new frontmatter fields, update `src/content.config.ts` first, then update existing posts as needed.
-- Local data consistency:
-  For links/quotes/nav data, keep naming and field conventions stable to avoid UI breakage from undefined fields.
-- TOC responsibilities:
-  Desktop TOC belongs to `BlogPost` left `aside`; mobile TOC belongs to `TocDrawer` only.
-- Script rebinding with View Transitions:
-  Interactive scripts should bind on both `astro:page-load` and `astro:after-swap`.
-- Static assets:
-  Put reusable media in `public/` (not absolute filesystem paths), and reference with project-relative URL paths.
-- Windows build caveat (if encountered):
-  `EPERM` on `node_modules/.vite` usually means file lock; stop running dev/preview processes and retry.
+- Cloudflare Pages root path (`/`)
+- GitHub Pages repo subpath (`/DansBlog/`)
 
-## Writing Posts
+`astro.config.mjs` resolves `base`/`site` from environment flags (`CF_PAGES`, `NODE_ENV`), and markdown image URLs are base-adjusted in the pipeline for cross-host consistency.
 
-Create a new file in `src/content/blog/`:
+### 2) Post Entry Stability Over Fancy Morphing
 
-```md
+Code-heavy pages are sensitive to timing between transitions and late style/font arrival. For list → post navigation, the project intentionally prefers deterministic entry:
+
+- `reloadOnNavigate={true}` adds `data-astro-reload` on post cards
+- CSS `page-fade-in` keeps visual continuity
+- View Transitions remain enabled for general route changes
+
+### 3) Code Block and Font Reflow Control
+
+`global.css` and `BaseHead.astro` apply a stability-first strategy:
+
+- no `max-content` sizing in code block flow
+- stable code metrics (`line-height: 1.6`, ligatures disabled)
+- container-level horizontal overflow
+- font policy split by role:
+  - Inter + Noto Serif SC: `display=swap`
+  - JetBrains Mono: `display=optional`
+
+### 4) TOC Geometry and Rebinding
+
+Desktop TOC stays in a dedicated sticky column; a placeholder keeps geometry stable when headings are absent. TOC scripts rebind on `astro:page-load` and `astro:after-swap` to stay reliable under client-side route swaps.
+
+## Deployment 🌐
+
+### Recommended Primary Environment: Cloudflare Pages
+
+- Primary URL: `https://dansblog.pages.dev/`
+- This is the recommended public access point for latest behavior and performance profile.
+
+### Mirror / Backup Environment: GitHub Pages
+
+- Mirror URL: `https://dancncn.github.io/DansBlog/`
+- Used as a backup channel and for repo-subpath compatibility checks.
+
+### Pre-release Checklist
+
+- Run build + preview
+- Validate `/blog/`, `/blog/page/2/`, `/tags/`, `/important/`, and at least one code-heavy post
+- Check Network panel for asset/image 404s
+
+## Development 💻
+
+Install and run:
+
+```bash
+npm install
+npm run dev
+```
+
+Build and preview:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Writing Guide ✍️
+
+### Create a Post
+
+Place `.md` / `.mdx` under `src/content/blog/`.
+
+Recommended frontmatter:
+
+```yaml
 ---
-title: "Your Post Title"
+title: "Your Title"
 description: "Short summary"
-pubDate: 2026-02-11
+pubDate: 2026-02-17
+updatedDate: 2026-02-18
+tags: ["tag-a", "tag-b"]
+important: false
+importantOrder: 0
 ---
-
-Your content here.
 ```
 
-## Commands
+### Language Pairing (CN/EN)
 
-| Command | Description |
-| :-- | :-- |
-| `npm install` | Install dependencies |
-| `npm run dev` | Start local dev server |
-| `npm run build` | Build static output to `dist/` |
-| `npm run preview` | Preview built site locally |
+Use `-cn` / `-en` naming conventions for paired articles, and keep grouping conventions consistent with current content strategy.
 
-## Open Source & Learning
+### Images
 
-This repository is open for reference and learning.
-You can study the architecture, content workflow, and deployment setup for your own Astro blog projects.
+- Store static images in `public/image/...`
+- Use `/image/...` in markdown
+- Base path prefixing is handled during build
 
-If you reuse code, please keep attribution and follow this repository's license terms.
+## FAQ / Notes 📌
+
+### Why not use shared-element transitions for article entry?
+
+Code-heavy pages still showed residual visual instability in real network/font timing scenarios. Hard navigation is used on that critical path to keep entry deterministic.
+
+### Why keep View Transitions if post entry bypasses them?
+
+They still improve overall route feel across the rest of the site. The stricter strategy is intentionally scoped, not global.
+
+### Why keep markdown-first image references?
+
+It keeps writing workflow simple and editor-friendly while remaining deployment-safe through base-path rewriting.
 
 ---
 
-## 中文说明
+## 简体中文摘要
 
-这是一个基于 Astro 的个人技术博客，核心目标是：
-- 用清晰结构记录科研/工程实践
-- 保持内容可复现、可维护
-- 在 GitHub Pages（项目页）稳定部署
+### 项目定位
 
-### 技术实现要点
+这是一个长期维护的工程型个人博客，核心目标是把研究记录、工程流程和可复现实践持续沉淀为结构化内容。
 
-1. 静态优先
-- 使用 Astro 静态构建，降低运行复杂度，提升加载性能。
+### 品牌与工程策略
 
-2. 内容集合（Content Collections）
-- 博文放在 `src/content/blog/`。
-- 通过 `src/content.config.ts` 做 frontmatter 结构校验，保证数据一致性。
+- **主环境优先**：Cloudflare Pages（`https://dansblog.pages.dev/`）作为当前主要访问入口
+- **双部署策略**：GitHub Pages 作为镜像/备用，保证子路径部署兼容性
+- **稳定性优先**：文章入口对高风险路径使用硬导航，减少代码大页的残余视觉抖动
+- **代码块治理**：围绕“防重排”原则处理宽度、行高、字形与滚动容器
+- **字体分工加载**：正文可读性优先，等宽字体尽量降低后到达替换引发的布局波动
+- **TOC 可用性**：桌面 sticky + 移动抽屉，并配合占位与重绑定机制保证一致行为
 
-3. 组件化布局
-- 头部、页脚、SEO、文章布局都拆分为独立组件，方便统一维护。
+### 开发与写作
 
-4. 样式系统
-- 使用 Tailwind 统一排版、间距与颜色层级，适配中英混排技术写作。
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
 
-5. GitHub Pages 项目页部署
-- 通过 `base: "/DansBlog/"` 适配仓库子路径部署。
-- 站内链接与图片路径按 base 规则处理，避免线上 404。
-
-### 项目结构与文件职责（简要）
-
-- `src/layouts/BlogPost.astro`：文章详情页布局（标题区、桌面 TOC、正文容器）
-- `src/pages/blog/[...slug].astro`：文章动态路由与内容渲染入口
-- `src/components/Header.astro`：全站导航、主题切换、移动端 TOC 按钮触发
-- `src/components/TocDrawer.astro`：移动端目录抽屉
-- `src/components/TocSidebar.astro`：桌面端目录卡片内容
-- `src/components/Toc.astro`：目录列表渲染（h2/h3）
-- `src/pages/links/index.astro`：友链页面渲染逻辑
-- `src/data/links.ts`：友链数据源
-- `src/styles/global.css`：全局样式与 markdown/prose 规则
-- `astro.config.mjs`：部署关键配置（site/base/output）
-
-### 开发注意事项
-
-- 处理仓库子路径部署时，优先使用 `import.meta.env.BASE_URL` 生成站内链接。
-- Markdown 图片建议统一放 `public/image/`，文内使用 `/image/...` 引用。
-- 新增 frontmatter 字段时先更新 `src/content.config.ts`，避免构建时 schema 报错。
-- 桌面端目录仅在文章布局左侧 `aside` 渲染；移动端目录仅走抽屉组件。
-- 遇到 Windows 下 `.vite` 的 `EPERM` 锁文件错误，先关闭占用进程再重试构建。
-
-### 开源学习使用
-
-本仓库可作为 Astro 博客工程化实践参考。
-欢迎学习和二次开发；复用代码时请保留来源并遵循仓库许可证。
+- 文章目录：`src/content/blog/`
+- 图片引用：`/image/...`（对应 `public/image/...`）
+- frontmatter 与 `content.config.ts` schema 保持一致

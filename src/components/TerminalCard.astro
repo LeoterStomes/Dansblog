@@ -1,4 +1,8 @@
 ---
+/*
+ * Lightweight terminal-style quote card.
+ * Kept as a simple visual component for static contexts where full quote orchestration is unnecessary.
+ */
 const QUOTES = [
 	'We are what we repeatedly do. Excellence, then, is not an act, but a habit.',
 	'Simplicity is prerequisite for reliability.',
@@ -37,6 +41,7 @@ const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
 
 <script is:inline>
 	(() => {
+		// Only animate typing when motion is allowed; preserve instant readability otherwise.
 		const cards = document.querySelectorAll('[data-terminal-card]');
 		if (!cards.length) return;
 

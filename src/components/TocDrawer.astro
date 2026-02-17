@@ -1,6 +1,11 @@
 ---
 import Toc from './Toc.astro';
 
+/*
+ * Mobile TOC drawer:
+ * - off-canvas list for article headings on small screens
+ * - reuses Toc.astro so active-state styling stays in sync with desktop TOC
+ */
 type TocHeading = {
 	depth: number;
 	slug: string;
@@ -8,6 +13,7 @@ type TocHeading = {
 };
 
 interface Props {
+	// Headings extracted from article markdown.
 	headings?: TocHeading[];
 }
 
@@ -60,6 +66,7 @@ const tocItems = headings.filter((item) => item.depth === 2 || item.depth === 3)
 		const drawer = document.getElementById('toc-drawer');
 		const overlay = document.getElementById('toc-overlay');
 		const closeBtn = document.getElementById('toc-menu-close');
+		// Guard against duplicate listeners after Astro client-side swaps.
 		if (!trigger || !drawer || !overlay || !closeBtn || trigger.dataset.tocBound === 'true') return;
 		trigger.dataset.tocBound = 'true';
 		const TRANSITION_MS = 220;
@@ -111,6 +118,7 @@ const tocItems = headings.filter((item) => item.depth === 2 || item.depth === 3)
 			drawer.classList.remove('hidden');
 			overlay.classList.remove('hidden');
 			document.documentElement.classList.add('overflow-hidden');
+			// Trigger transform animation in next frame to ensure transition classes are applied cleanly.
 			window.requestAnimationFrame(setOpenVisualState);
 			window.requestAnimationFrame(() => window.dispatchEvent(new CustomEvent('toc:refresh')));
 		};
@@ -124,6 +132,7 @@ const tocItems = headings.filter((item) => item.depth === 2 || item.depth === 3)
 			link.addEventListener('click', closeDrawer);
 		}
 
+		// Always normalize initial state so hydration order does not leak an open drawer.
 		forceClosedState();
 	};
 
@@ -147,6 +156,7 @@ const tocItems = headings.filter((item) => item.depth === 2 || item.depth === 3)
 				overlay.classList.add('hidden');
 			}, 220);
 		});
+		// Bind ESC handler only once globally to avoid stacked listeners.
 		document.documentElement.dataset.tocEscBound = 'true';
 	}
 

@@ -5,8 +5,11 @@ title: "如何搭建一个个人博客网站"
 description: "基于Astro和Tailwind css搭建一个不需要自己解决域名和服务器问题的个人博客网站。"
 pubDate: 2026-02-12
 tags: ["Astro", "blog", "github-pages", "guide", "CN"]
+lang: "cn"
+group: "how-to-build-a-personal-blog"
 important: true
 importantOrder: 100
+typora-root-url: ./
 ---
 
 ## 前言

@@ -1,8 +1,10 @@
-﻿---
+---
 title: GoFile Download Tool -- Complete Usage Guide
 description: A step-by-step guide to downloading files from GoFile using a Python script.
 pubDate: 2026-02-11
 tags: ["tools", "download", "gofile", "guide", "EN"]
+lang: "en"
+group: "gofile-download-tool-guide"
 typora-root-url: ./..\..\..\public\image
 ---
 
@@ -23,7 +25,7 @@ You have two ways to obtain it.
 3.  Select **Download ZIP**
 4.  Extract it to any folder
 
-![step1](/image/goflieuse/step1.png)
+![step1](./gofile-download-tool-guide/images/step1.png)
 
 ------------------------------------------------------------------------
 
@@ -87,7 +89,7 @@ Downloaded files will appear in:
 
     outputs/
 
-![step3](/image/goflieuse/step3.png)
+![step3](./gofile-download-tool-guide/images/step3.png)
 
 ------------------------------------------------------------------------
 
@@ -122,3 +124,4 @@ That's all.
 -   This tool is intended for downloading publicly accessible files.
 -   Ensure you comply with applicable laws and platform terms of
     service.
+

@@ -1,6 +1,10 @@
-﻿---
+---
 import type { HTMLAttributes } from 'astro/types';
 
+/*
+ * Nav link primitive used by Header.
+ * Encapsulates active-state detection so navigation styling stays consistent everywhere.
+ */
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
@@ -9,6 +13,7 @@ const pathname = Astro.url.pathname.replace(baseUrl, '/');
 const subpath = pathname.match(/[^\/]+/g);
 const normalizedHref = typeof href === 'string' ? href.replace(baseUrl, '/').replace(/\/+$/, '/') : href;
 const firstSegmentPath = subpath?.[0] ? `/${subpath[0]}/` : '/';
+// Segment-level match keeps parent sections highlighted across nested routes.
 const isActive = normalizedHref === pathname || normalizedHref === firstSegmentPath;
 ---
 

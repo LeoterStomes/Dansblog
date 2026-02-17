@@ -3,6 +3,8 @@ title: "我用 Sunshine 把平板改造成电脑副屏：一套稳定可用的�
 description: "一套基于 Sunshine 串流与虚拟显示器驱动的副屏搭建方案与踩坑记录。"
 pubDate: 2026-02-16
 tags: ["sunshine","tools","guide","screen-streaming","virtual-display","CN"]
+lang: "cn"
+group: "how-i-turned-my-tablet-into-a-second-monitor-with-sunshine"
 ---
 
 ## 前言

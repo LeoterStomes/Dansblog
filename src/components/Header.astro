@@ -3,7 +3,14 @@ import { BILIBILI_URL, CREATINF_URL, GITHUB_URL, SITE_TITLE } from '../consts';
 import { getNavLinks } from '../data/navLinks';
 import HeaderLink from './HeaderLink.astro';
 
+/*
+ * Global site header:
+ * - provides primary navigation on desktop
+ * - exposes mobile trigger hooks for navigation/TOC drawers
+ * - owns theme toggle and social identity actions
+ */
 interface Props {
+	// Enables TOC trigger only for pages that actually provide headings.
 	showTocButton?: boolean;
 }
 
@@ -16,6 +23,7 @@ const { showTocButton = false } = Astro.props as Props;
 <header class="sticky top-0 z-50 border-b border-zinc-200/90 bg-zinc-50/95 backdrop-blur transition-colors duration-200 dark:border-zinc-800 dark:bg-zinc-950/90">
 	<nav class="page-shell flex h-16 items-center justify-between gap-4">
 		<div class="flex items-center gap-6">
+			<!-- Stable trigger ID consumed by MobileDrawer script. -->
 			<button
 				type="button"
 				id="mobile-menu-button"
@@ -28,6 +36,7 @@ const { showTocButton = false } = Astro.props as Props;
 				</svg>
 				<span>Menu</span>
 			</button>
+			<!-- TOC drawer binds to this trigger and only renders on mobile. -->
 			{
 				showTocButton && (
 					<button
@@ -116,6 +125,7 @@ const { showTocButton = false } = Astro.props as Props;
 <script is:inline>
 	const initThemeToggle = () => {
 		const button = document.getElementById('theme-toggle');
+		// Guard prevents duplicate listeners after Astro swaps partial DOM trees.
 		if (!button || button.dataset.bound === 'true') return;
 		button.dataset.bound = 'true';
 
@@ -133,6 +143,7 @@ const { showTocButton = false } = Astro.props as Props;
 			localStorage.setItem(storageKey, isDark ? 'dark' : 'light');
 			updateAria();
 			window.setTimeout(() => {
+				// Remove temporary class after transition so regular interactions stay snappy.
 				root.classList.remove('theme-switching');
 			}, 240);
 		});
@@ -141,6 +152,7 @@ const { showTocButton = false } = Astro.props as Props;
 	};
 
 	initThemeToggle();
+	// Rebind on client-side navigation because header can be re-rendered by View Transitions.
 	document.addEventListener('astro:page-load', initThemeToggle);
 	document.addEventListener('astro:after-swap', initThemeToggle);
 </script>

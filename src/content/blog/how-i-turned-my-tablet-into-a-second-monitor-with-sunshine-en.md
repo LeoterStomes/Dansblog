@@ -3,6 +3,8 @@ title: "How I Turned My Tablet into a Second Monitor with Sunshine"
 description: "A practical guide and troubleshooting notes on building a tablet-as-second-monitor setup using Sunshine streaming and a virtual display driver."
 pubDate: 2026-02-16
 tags: ["sunshine","tools","guide","screen-streaming","virtual-display","EN"]
+lang: "en"
+group: "how-i-turned-my-tablet-into-a-second-monitor-with-sunshine"
 ---
 
 ## Preface

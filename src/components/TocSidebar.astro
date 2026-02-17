@@ -1,6 +1,10 @@
 ---
 import Toc from './Toc.astro';
 
+/*
+ * Desktop TOC card wrapper.
+ * Keeps visual framing separate from list logic so Toc.astro stays reusable.
+ */
 type TocHeading = {
 	depth: number;
 	slug: string;
@@ -8,6 +12,7 @@ type TocHeading = {
 };
 
 interface Props {
+	// Full heading list from the article renderer.
 	headings?: TocHeading[];
 }
 

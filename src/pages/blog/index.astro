@@ -9,6 +9,7 @@ import PostCard from '../../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const BASE = import.meta.env.BASE_URL;
+// The first page is served from /blog/ for canonical URL stability and cleaner SEO.
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -25,9 +26,9 @@ const lastPage = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
 	<body>
 		<Header />
 		<MobileDrawer />
-		<main class="page-shell py-10 md:py-14" transition:name="page-main" transition:animate="fade">
+		<main class="page-shell page-fade-in py-10 md:py-14" transition:name="page-main" transition:animate="fade">
 			<section class="section-enter mx-auto max-w-4xl">
-				<h1 class="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 md:text-4xl" transition:name="page-title" transition:animate="fade">
+				<h1 class="font-sans text-3xl font-semibold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100 md:text-4xl" transition:name="page-title" transition:animate="fade">
 					Blog
 				</h1>
 				<p class="mt-2 font-sans text-zinc-500 dark:text-zinc-400">Research notes, engineering logs, and technical essays.</p>
@@ -35,7 +36,7 @@ const lastPage = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
 					{
 						paginatedPosts.map((post, idx) => (
 							<li class="card-enter relative" style={`animation-delay: ${90 + idx * 40}ms`}>
-								<PostCard post={post} base={BASE} maxMobile={3} maxDesktop={null} />
+								<PostCard post={post} base={BASE} maxMobile={3} maxDesktop={null} reloadOnNavigate={true} />
 							</li>
 						))
 					}
@@ -46,3 +47,5 @@ const lastPage = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
 		<Footer />
 	</body>
 </html>
+
+

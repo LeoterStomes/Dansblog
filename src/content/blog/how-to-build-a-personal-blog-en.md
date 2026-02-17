@@ -4,6 +4,8 @@ title: "How to Build a Personal Blog Website"
 description: "Build a personal blog with Astro and Tailwind CSS, without dealing with your own server and domain setup from day one."
 pubDate: 2026-02-12
 tags: ["Astro", "blog", "github-pages", "guide", "EN"]
+lang: "en"
+group: "how-to-build-a-personal-blog"
 important: true
 importantOrder: 90
 ---

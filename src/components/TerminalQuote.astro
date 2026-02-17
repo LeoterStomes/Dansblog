@@ -1,6 +1,11 @@
 ﻿---
 import quotesData from '../data/quotes.json';
 
+/*
+ * Stateful terminal-style quote component for hero/about sections.
+ * Supports one-shot and looping modes while remaining resilient to Astro route swaps.
+ */
+
 type Quote = {
 	text: string;
 	author?: string;
@@ -10,8 +15,11 @@ type Quote = {
 };
 
 interface Props {
+	// Optional inline quote text; when set, JSON data is bypassed.
 	text?: string;
+	// One-shot mode for pages that should stop updating after first render.
 	once?: boolean;
+	// Fixed height prevents surrounding layout drift when quote length changes.
 	fixedHeight?: boolean;
 }
 
@@ -71,6 +79,7 @@ const encodedQuotes = encodeURIComponent(JSON.stringify(quotes));
 			return;
 		}
 
+		// Shared manager avoids duplicate timers when multiple terminal instances coexist.
 		const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 		const registry = new WeakMap();
 
@@ -91,6 +100,7 @@ const encodedQuotes = encodeURIComponent(JSON.stringify(quotes));
 		};
 
 		const stopRoot = (root) => {
+			// Soft stop lets in-flight async loops exit without throwing or leaking.
 			const state = registry.get(root);
 			if (state) state.active = false;
 		};
@@ -115,6 +125,7 @@ const encodedQuotes = encodeURIComponent(JSON.stringify(quotes));
 				: [];
 
 			if (quotes.length === 0) {
+				// Explicit message prevents a blank card when quote data is malformed.
 				textEl.textContent = 'Quote data is empty or invalid.';
 				cursorEl.classList.add('hidden');
 				return;
@@ -131,6 +142,7 @@ const encodedQuotes = encodeURIComponent(JSON.stringify(quotes));
 					return quotes[0];
 				}
 				let idx = Math.floor(Math.random() * quotes.length);
+				// Avoid immediate repeats to preserve the perception of rotation.
 				while (idx === lastIndex) idx = Math.floor(Math.random() * quotes.length);
 				lastIndex = idx;
 				return quotes[idx];
