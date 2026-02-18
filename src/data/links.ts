@@ -141,6 +141,16 @@ export const links: FriendLink[] = [
 		status: 'active',
 	},
 	{
+		name: 'dianfeng-junguan',
+		kind: 'github',
+		url: 'https://github.com/dianfeng-junguan',
+		github: 'dianfeng-junguan',
+		description:
+			'Random dev majoring in IEEE (though the code rarely matches). Codes at will — sometimes drafted into team contests.',
+		tags: ['IEEE', 'Contests', 'Developer'],
+		status: 'active',
+	},
+	{
 		name: 'fumigo',
 		kind: 'project',
 		url: 'https://fumigo.cn/',
