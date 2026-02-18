@@ -168,7 +168,7 @@ html.dark:hover::-webkit-scrollbar-thumb {
 	}
 
 	.markdown-prose {
-		@apply prose prose-zinc dark:prose-invert font-serif max-w-none;
+		@apply prose prose-zinc dark:prose-invert font-sans max-w-none;
 		@apply prose-headings:font-sans prose-headings:font-semibold prose-headings:tracking-tight;
 		@apply prose-p:leading-8 prose-li:leading-8 prose-strong:font-semibold;
 		@apply prose-a:text-blue-600 hover:prose-a:text-blue-700 dark:prose-a:text-blue-400 dark:hover:prose-a:text-blue-300;
@@ -706,5 +706,20 @@ html.theme-switching *::after {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border: 0;
+}
+
+.markdown-prose,
+article {
+	font-family: "Alibaba PuHuiTi", Inter, system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+
+.markdown-prose :where(p, li, blockquote, table, span, h1, h2, h3, h4),
+article :where(p, li, blockquote, table, span, h1, h2, h3, h4) {
+	font-family: inherit !important;
+}
+
+.markdown-prose :where(code, pre),
+article :where(code, pre) {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 

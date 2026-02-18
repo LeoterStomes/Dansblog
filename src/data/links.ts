@@ -121,6 +121,16 @@ export const links: FriendLink[] = [
 		status: 'active',
 	},
 	{
+		name: 'Christina_Alex',
+		kind: 'bilibili',
+		url: 'https://space.bilibili.com/440358013',
+		type: 'bilibili',
+		avatar: '/image/bili/Christina_Alex.jpg',
+		description: 'Physics student who uses code to support physics research - and can fly a plane.',
+		tags: ['Physics', 'Coding', 'Research', 'Aviation'],
+		status: 'active',
+	},
+	{
 		name: 'Ruhui Chen',
 		kind: 'github',
 		url: 'https://github.com/wbsxhh201771',

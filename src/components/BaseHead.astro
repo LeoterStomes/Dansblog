@@ -43,6 +43,24 @@ const BASE = import.meta.env.BASE_URL;
 <!-- Font preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style is:inline>
+	{`
+		@font-face {
+			font-family: "Alibaba PuHuiTi";
+			src: url('${BASE}fonts/AlibabaPuHuiTi-3-55-RegularL3.woff2') format('woff2');
+			font-weight: 400;
+			font-style: normal;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: "Alibaba PuHuiTi";
+			src: url('${BASE}fonts/AlibabaPuHuiTi-3-75-SemiBold.woff2') format('woff2');
+			font-weight: 600;
+			font-style: normal;
+			font-display: swap;
+		}
+	`}
+</style>
 <!-- UI/body fonts prioritize immediate paint to reduce perceived loading delay. -->
 <link
 	rel="stylesheet"
