@@ -52,8 +52,8 @@ function rehypePrefixPublicImageBase(basePath) {
 
 // https://astro.build/config
 export default defineConfig({
-	site: runtimeSite,
-	base: runtimeBase,
+	site: "https://github.com/LeoterStomes/Dansblog.git",
+	base: '/DansBlog/',
 	trailingSlash: 'always',
 	output: 'static',
 	integrations: [mdx(), sitemap()],
